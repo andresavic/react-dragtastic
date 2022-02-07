@@ -510,7 +510,7 @@ var Droppable = (function(_React$Component) {
 
         console.log(x1, x2, y1, y2)
 
-        if (x >= x1 && x2 <= x2 && y1 >= y && y2 <= y) {
+        if (x >= x1 && x <= x2 && y >= y1 && y <= y2) {
           if (isDragging) {
             if (Array.isArray(_this.props.accepts)) {
               if (_this.props.accepts.includes(type)) {
