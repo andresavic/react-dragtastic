@@ -500,14 +500,34 @@
             _this.props.onDragLeave()
           }
         }),
-        (_this.onMove = function(event) {
-          console.log('onMove', event)
-        }),
-        (_this.onDrop = function() {
+        (_this.touchMove = function(event) {
+          var element = document.getElementById(_this.props.id)
+
           var _store$getState = dndStore.getState(),
             data = _store$getState.data,
-            type = _store$getState.type,
-            isDragging = _store$getState.isDragging
+            x = _store$getState.x,
+            y = _store$getState.y
+
+          console.log(data, x, y)
+          console.log('onMove', element)
+        }),
+        (_this.touchEnd = function(event) {
+          var _store$getState2 = dndStore.getState(),
+            data = _store$getState2.data,
+            x = _store$getState2.x,
+            y = _store$getState2.y
+
+          console.log('onEnd', data, x, y)
+
+          var element = document.getElementById(_this.props.id)
+          console.log('getBoundingClientRect', element.getBoundingClientRect())
+          console.log('onEnd', event)
+        }),
+        (_this.onDrop = function() {
+          var _store$getState3 = dndStore.getState(),
+            data = _store$getState3.data,
+            type = _store$getState3.type,
+            isDragging = _store$getState3.isDragging
 
           console.log('DROP', data, type)
           if (isDragging) {
@@ -569,6 +589,9 @@
           })
         )
       })
+
+      document.addEventListener('touchend', this.touchEnd)
+      document.addEventListener('touchmove', this.touchMove)
     }
 
     Droppable.prototype.componentWillUnmount = function componentWillUnmount() {
@@ -582,9 +605,7 @@
           events: {
             onMouseEnter: this.setOver,
             onMouseLeave: this.setOut,
-            onMouseUp: this.onDrop,
-            onTouchMove: this.onMove,
-            onTouchEnd: this.onDrop
+            onMouseUp: this.onDrop
           }
         })
       )

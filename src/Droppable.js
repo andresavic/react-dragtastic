@@ -34,8 +34,20 @@ class Droppable extends React.Component {
     }
   }
 
-  onMove = event => {
-    console.log('onMove', event)
+  touchMove = event => {
+    let element = document.getElementById(this.props.id)
+    const { data, x, y } = store.getState()
+    console.log(data, x, y)
+    console.log('onMove', element)
+  }
+
+  touchEnd = event => {
+    const { data, x, y } = store.getState()
+    console.log('onEnd', data, x, y)
+
+    let element = document.getElementById(this.props.id)
+    console.log('getBoundingClientRect', element.getBoundingClientRect())
+    console.log('onEnd', event)
   }
 
   onDrop = () => {
@@ -94,6 +106,9 @@ class Droppable extends React.Component {
           : this.props.accepts === state.type
       })
     })
+
+    document.addEventListener('touchend', this.touchEnd)
+    document.addEventListener('touchmove', this.touchMove)
   }
 
   componentWillUnmount() {
@@ -107,9 +122,7 @@ class Droppable extends React.Component {
       events: {
         onMouseEnter: this.setOver,
         onMouseLeave: this.setOut,
-        onMouseUp: this.onDrop,
-        onTouchMove: this.onMove,
-        onTouchEnd: this.onDrop
+        onMouseUp: this.onDrop
       }
     })
   }
