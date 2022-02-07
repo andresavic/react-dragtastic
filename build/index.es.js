@@ -488,34 +488,46 @@ var Droppable = (function(_React$Component) {
           _this.props.onDragLeave()
         }
       }),
-      (_this.touchMove = function(event) {
-        var element = document.getElementById(_this.props.id)
-
+      (_this.touchEnd = function(event) {
         var _store$getState = dndStore.getState(),
           data = _store$getState.data,
           x = _store$getState.x,
           y = _store$getState.y
-
-        console.log(data, x, y)
-        console.log('onMove', element)
-      }),
-      (_this.touchEnd = function(event) {
-        var _store$getState2 = dndStore.getState(),
-          data = _store$getState2.data,
-          x = _store$getState2.x,
-          y = _store$getState2.y
 
         console.log('onEnd', data, x, y)
 
         var element = document.getElementById(_this.props.id)
         console.log('getBoundingClientRect', element.getBoundingClientRect())
         console.log('onEnd', event)
+
+        var boundingBox = element.getBoundingClientRect()
+
+        if (
+          boundingBox.x >= x &&
+          boundingBox.x + boundingBox.width <= x &&
+          boundingBox.y >= y &&
+          boundingBox.y + boundingBox.height <= y
+        ) {
+          if (isDragging) {
+            if (Array.isArray(_this.props.accepts)) {
+              if (_this.props.accepts.includes(type)) {
+                _this.props.onDrop(data)
+              }
+            } else {
+              if (type === _this.props.accepts) {
+                _this.props.onDrop(data)
+              }
+            }
+          }
+        } else {
+          console.log('no drop')
+        }
       }),
       (_this.onDrop = function() {
-        var _store$getState3 = dndStore.getState(),
-          data = _store$getState3.data,
-          type = _store$getState3.type,
-          isDragging = _store$getState3.isDragging
+        var _store$getState2 = dndStore.getState(),
+          data = _store$getState2.data,
+          type = _store$getState2.type,
+          isDragging = _store$getState2.isDragging
 
         console.log('DROP', data, type)
         if (isDragging) {
@@ -579,11 +591,11 @@ var Droppable = (function(_React$Component) {
     })
 
     document.addEventListener('touchend', this.touchEnd)
-    document.addEventListener('touchmove', this.touchMove)
   }
 
   Droppable.prototype.componentWillUnmount = function componentWillUnmount() {
     this.unsubscribe()
+    document.removeEventListener('touchend', this.touchEnd)
   }
 
   Droppable.prototype.render = function render() {

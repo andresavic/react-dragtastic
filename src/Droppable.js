@@ -34,13 +34,6 @@ class Droppable extends React.Component {
     }
   }
 
-  touchMove = event => {
-    let element = document.getElementById(this.props.id)
-    const { data, x, y } = store.getState()
-    console.log(data, x, y)
-    console.log('onMove', element)
-  }
-
   touchEnd = event => {
     const { data, x, y } = store.getState()
     console.log('onEnd', data, x, y)
@@ -48,6 +41,29 @@ class Droppable extends React.Component {
     let element = document.getElementById(this.props.id)
     console.log('getBoundingClientRect', element.getBoundingClientRect())
     console.log('onEnd', event)
+
+    let boundingBox = element.getBoundingClientRect()
+
+    if (
+      boundingBox.x >= x &&
+      boundingBox.x + boundingBox.width <= x &&
+      boundingBox.y >= y &&
+      boundingBox.y + boundingBox.height <= y
+    ) {
+      if (isDragging) {
+        if (Array.isArray(this.props.accepts)) {
+          if (this.props.accepts.includes(type)) {
+            this.props.onDrop(data)
+          }
+        } else {
+          if (type === this.props.accepts) {
+            this.props.onDrop(data)
+          }
+        }
+      }
+    } else {
+      console.log('no drop')
+    }
   }
 
   onDrop = () => {
@@ -108,11 +124,11 @@ class Droppable extends React.Component {
     })
 
     document.addEventListener('touchend', this.touchEnd)
-    document.addEventListener('touchmove', this.touchMove)
   }
 
   componentWillUnmount() {
     this.unsubscribe()
+    document.removeEventListener('touchend', this.touchEnd)
   }
 
   render() {
