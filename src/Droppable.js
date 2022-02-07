@@ -44,12 +44,15 @@ class Droppable extends React.Component {
 
     let boundingBox = element.getBoundingClientRect()
 
-    if (
-      boundingBox.x >= x &&
-      boundingBox.x + boundingBox.width <= x &&
-      boundingBox.y >= y &&
-      boundingBox.y + boundingBox.height <= y
-    ) {
+    const x1 = boundingBox.x
+    const x2 = boundingBox.x + boundingBox.width
+
+    const y1 = boundingBox.y
+    const y2 = boundingBox.y + boundingBox.height
+
+    console.log(x1, x2, y1, y2)
+
+    if (x >= x1 && x2 <= x2 && y1 >= y && y2 <= y) {
       if (isDragging) {
         if (Array.isArray(this.props.accepts)) {
           if (this.props.accepts.includes(type)) {

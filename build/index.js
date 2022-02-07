@@ -514,12 +514,15 @@
 
           var boundingBox = element.getBoundingClientRect()
 
-          if (
-            boundingBox.x >= x &&
-            boundingBox.x + boundingBox.width <= x &&
-            boundingBox.y >= y &&
-            boundingBox.y + boundingBox.height <= y
-          ) {
+          var x1 = boundingBox.x
+          var x2 = boundingBox.x + boundingBox.width
+
+          var y1 = boundingBox.y
+          var y2 = boundingBox.y + boundingBox.height
+
+          console.log(x1, x2, y1, y2)
+
+          if (x >= x1 && x2 <= x2 && y1 >= y && y2 <= y) {
             if (isDragging) {
               if (Array.isArray(_this.props.accepts)) {
                 if (_this.props.accepts.includes(type)) {
