@@ -1,6 +1,6 @@
-import * as React from "react"
-import PropTypes from "prop-types"
-import store, { getId, noop } from "./store"
+import * as React from 'react'
+import PropTypes from 'prop-types'
+import store, { getId, noop } from './store'
 
 class Droppable extends React.Component {
   static defaultProps = {
@@ -34,9 +34,13 @@ class Droppable extends React.Component {
     }
   }
 
+  onMove = event => {
+    console.log('onMove', event)
+  }
+
   onDrop = () => {
-    const { data, type, isDragging } = store.getState();
-    console.log("DROP", data, type);
+    const { data, type, isDragging } = store.getState()
+    console.log('DROP', data, type)
     if (isDragging) {
       if (Array.isArray(this.props.accepts)) {
         if (this.props.accepts.includes(type)) {
@@ -104,6 +108,7 @@ class Droppable extends React.Component {
         onMouseEnter: this.setOver,
         onMouseLeave: this.setOut,
         onMouseUp: this.onDrop,
+        onTouchMove: this.onMove,
         onTouchEnd: this.onDrop
       }
     })

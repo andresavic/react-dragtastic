@@ -488,6 +488,9 @@ var Droppable = (function(_React$Component) {
           _this.props.onDragLeave()
         }
       }),
+      (_this.onMove = function(event) {
+        console.log('onMove', event)
+      }),
       (_this.onDrop = function() {
         var _store$getState = dndStore.getState(),
           data = _store$getState.data,
@@ -568,6 +571,7 @@ var Droppable = (function(_React$Component) {
           onMouseEnter: this.setOver,
           onMouseLeave: this.setOut,
           onMouseUp: this.onDrop,
+          onTouchMove: this.onMove,
           onTouchEnd: this.onDrop
         }
       })
