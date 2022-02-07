@@ -503,8 +503,10 @@
         (_this.touchEnd = function(event) {
           var _store$getState = dndStore.getState(),
             data = _store$getState.data,
+            type = _store$getState.type,
             x = _store$getState.x,
-            y = _store$getState.y
+            y = _store$getState.y,
+            isDragging = _store$getState.isDragging
 
           console.log('onEnd', data, x, y)
 

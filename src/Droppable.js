@@ -35,7 +35,7 @@ class Droppable extends React.Component {
   }
 
   touchEnd = event => {
-    const { data, x, y } = store.getState()
+    const { data, type, x, y, isDragging } = store.getState()
     console.log('onEnd', data, x, y)
 
     let element = document.getElementById(this.props.id)
