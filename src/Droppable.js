@@ -35,7 +35,8 @@ class Droppable extends React.Component {
   }
 
   onDrop = () => {
-    const { data, type, isDragging } = store.getState()
+    const { data, type, isDragging } = store.getState();
+    console.log("DROP, data, type);
     if (isDragging) {
       if (Array.isArray(this.props.accepts)) {
         if (this.props.accepts.includes(type)) {
@@ -102,7 +103,8 @@ class Droppable extends React.Component {
       events: {
         onMouseEnter: this.setOver,
         onMouseLeave: this.setOut,
-        onMouseUp: this.onDrop
+        onMouseUp: this.onDrop,
+        onTouchEnd: this.onDrop
       }
     })
   }
